@@ -17,13 +17,21 @@ enum class side { LEFT, RIGHT, NONE };
 side branchPositions[NUM_BRANCHES];
 
 
+#define WINDOW_WIDTH 960
+#define WINDOW_HEIGHT 540
+
+//#define WINDOW_WIDTH 1920
+//#define WINDOW_HEIGHT 1080
+
 int main()
 {
 	// Create a video mode object
-	VideoMode vm(1920, 1080);
+	//VideoMode vm(1920, 1080);
+
+	VideoMode vm(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	// Create and open a window for the game
-	RenderWindow window(vm, "Timber!!!", Style::Fullscreen);
+	RenderWindow window(vm, "Timber!!!", Style::Default);
 
 	// Create a texture to hold a graphic on the GPU
 	Texture textureBackground;
@@ -40,19 +48,32 @@ int main()
 	// Set the spriteBackground to cover the screen
 	spriteBackground.setPosition(0, 0);
 
+	sf::Vector2u windowSize = window.getSize(); // Assuming 'window' is your sf::RenderWindow
+	sf::Vector2u textureSize = textureBackground.getSize();
+
+	spriteBackground.setScale(
+		static_cast<float>(windowSize.x) / textureSize.x,
+		static_cast<float>(windowSize.y) / textureSize.y
+	);
+
 	// Make a tree sprite
 	Texture textureTree;
 	textureTree.loadFromFile("graphics/tree.png");
 	Sprite spriteTree;
 	spriteTree.setTexture(textureTree);
-	spriteTree.setPosition(810, 0);
+	spriteTree.setPosition(WINDOW_WIDTH/2, 0);
+	spriteTree.setScale(
+		static_cast<float>(windowSize.x) / textureSize.x,
+		static_cast<float>(windowSize.y) / textureSize.y
+	);
 
 	// Prepare the bee
 	Texture textureBee;
 	textureBee.loadFromFile("graphics/bee.png");
 	Sprite spriteBee;
 	spriteBee.setTexture(textureBee);
-	spriteBee.setPosition(0, 800);
+	spriteBee.setPosition(0, 400);
+	spriteBee.setScale(static_cast<float>(windowSize.x) / textureSize.x,static_cast<float>(windowSize.y) / textureSize.y);
 
 	// Is the bee currently moving?
 	bool beeActive = false;
@@ -79,6 +100,10 @@ int main()
 	spriteCloud2.setPosition(0, 150);
 	spriteCloud3.setPosition(0, 300);
 
+	spriteCloud1.setScale(static_cast<float>(windowSize.x) / textureSize.x, static_cast<float>(windowSize.y) / textureSize.y);
+	spriteCloud2.setScale(static_cast<float>(windowSize.x) / textureSize.x, static_cast<float>(windowSize.y) / textureSize.y);
+	spriteCloud3.setScale(static_cast<float>(windowSize.x) / textureSize.x, static_cast<float>(windowSize.y) / textureSize.y);
+
 	// Are the clouds currently on screen?
 	bool cloud1Active = false;
 	bool cloud2Active = false;
@@ -97,7 +122,7 @@ int main()
 	float timeBarHeight = 80;
 	timeBar.setSize(Vector2f(timeBarStartWidth, timeBarHeight));
 	timeBar.setFillColor(Color::Red);
-	timeBar.setPosition((1920 / 2) - timeBarStartWidth / 2, 980);
+	timeBar.setPosition((WINDOW_WIDTH / 2) - timeBarStartWidth / 2, 980);
 
 	Time gameTimeTotal;
 	float timeRemaining = 6.0f;
@@ -139,7 +164,7 @@ int main()
 		textRect.top +
 		textRect.height / 2.0f);
 
-	messageText.setPosition(1920 / 2.0f, 1080 / 2.0f);
+	messageText.setPosition(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
 
 	scoreText.setPosition(20, 20);
 
