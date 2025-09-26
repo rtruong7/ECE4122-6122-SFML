@@ -27,9 +27,8 @@ endif()
 
 
 add_subdirectory(SFML)
-add_subdirectory(Chapter01)
-add_subdirectory(Chapter05)
-add_subdirectory(Chapter07)
+add_subdirectory(Lab1)
+
 #add_subdirectory(Lab2)
 # Include header files
 include_directories(${PROJECT_SOURCE_DIR}/include)
