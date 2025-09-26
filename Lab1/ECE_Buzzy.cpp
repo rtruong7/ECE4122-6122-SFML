@@ -8,7 +8,7 @@ void ECE_Buzzy::init(sf::Texture* tex, sf::Vector2f startPos) {
     setOrigin(b.width / 2.f, b.height / 2.f);
 
     // Scale Buzzy so he isn't enormous (target ~64 px width)
-    const float targetW = 64.f;
+    const float targetW = 12.f;
     const float scale   = targetW / b.width;
     setScale(scale, scale);
 
