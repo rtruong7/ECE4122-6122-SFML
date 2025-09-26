@@ -2,9 +2,19 @@
 
 void ECE_Buzzy::init(sf::Texture* tex, sf::Vector2f startPos) {
     setTexture(*tex);
-    setOrigin(getLocalBounds().width/2.f, getLocalBounds().height/2.f);
+
+    // Center origin using unscaled local bounds
+    auto b = getLocalBounds();
+    setOrigin(b.width / 2.f, b.height / 2.f);
+
+    // Scale Buzzy so he isn't enormous (target ~64 px width)
+    const float targetW = 64.f;
+    const float scale   = targetW / b.width;
+    setScale(scale, scale);
+
     setPosition(startPos);
 }
+
 
 void ECE_Buzzy::updateFromInput(float dt, float speed, const sf::RenderWindow& window) {
     float dir = 0.f;
